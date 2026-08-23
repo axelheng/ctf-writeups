@@ -1,9 +1,8 @@
 # CTF Writeups
 
-Personal CTF challenge writeups, notes, and exploit scripts.
+Personal CTF challenge writeups.
 
 ## Challenges
 
-- [n00bcak's Last Straw](dist-n00bcaks_last_straw/README.md) — heap overflow and SIGSEGV handler
+- [n00bcak's Last Straw](NUS-Greyhats-CTF/n00bcaks-last-straw/README.md)) — heap overflow and SIGSEGV handler
 
-Each challenge directory contains the writeup and, where useful, a reproducible exploit script.

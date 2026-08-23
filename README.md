@@ -1,6 +1,6 @@
 # CTF Writeups
 
-Personal CTF challenge writeups.
+Here is a collection of my CTF challenge writeups.
 
 ## Challenges
 

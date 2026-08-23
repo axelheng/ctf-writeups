@@ -1,6 +1,6 @@
 # CTF Writeups
 
-Collection of Fun and Interesting Challenges! I have learnt quite alotfrom these
+Collection of Fun and Interesting Challenges! I have learnt quite alot from these
 
 ## Challenges
 

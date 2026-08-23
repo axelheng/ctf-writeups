@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard · NUS Greyhats{% endblock %}
+
+{% block content %}
+  <section class="dashboard-card">
+    <a class="brand" href="{{ url_for('index') }}" aria-label="NUS Greyhats home">
+      <img src="https://nusgreyhats.org/greyhats-dark.png" alt="">
+      <span>NUS Greyhats</span>
+    </a>
+    <h1>Welcome, {{ user.username }}.</h1>
+    <p>Role: <strong>{{ user.role }}</strong></p>
+    {% if flag %}
+      <p class="flag">{{ flag }}</p>
+    {% endif %}
+    <form action="{{ url_for('logout') }}" method="post">
+      <button type="submit" class="secondary-button">Sign out</button>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}{{ "Join" if mode == "register" else "Sign in" }} · NUS Greyhats{% endblock %}
+
+{% block content %}
+  <section class="auth-card">
+    <header class="site-header">
+      <a class="brand" href="{{ url_for('index') }}" aria-label="NUS Greyhats home">
+        <img src="https://nusgreyhats.org/greyhats-dark.png" alt="">
+        <span>NUS Greyhats</span>
+      </a>
+    </header>
+
+    <div class="form-wrap">
+      <div class="form-heading">
+        <h1>{{ "Create account" if mode == "register" else "Sign in" }}</h1>
+      </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="messages" aria-live="polite">
+              {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="post" class="auth-form">
+          <label>
+            <span>Username</span>
+            <input
+              type="text"
+              name="username"
+              value="{{ request.form.get('username', '') }}"
+              placeholder="Your username"
+              minlength="3"
+              autocomplete="username"
+              required
+              autofocus
+            >
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input
+              type="password"
+              name="password"
+              placeholder="{{ 'At least 8 characters' if mode == 'register' else 'Your password' }}"
+              minlength="{{ 8 if mode == 'register' else 1 }}"
+              autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}"
+              required
+            >
+          </label>
+
+          <button type="submit">{{ "Create account" if mode == "register" else "Sign in" }}</button>
+        </form>
+
+        <p class="form-switch">
+          {% if mode == "register" %}
+            Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+          {% else %}
+            New to Greyhats? <a href="{{ url_for('register') }}">Create an account</a>
+          {% endif %}
+        </p>
+    </div>
+  </section>
+{% endblock %}

